@@ -95,11 +95,10 @@
                             <li><a href="contact.html">39 Jellicoe Street,Auckland CBD,Auckland 1010</a></li>
                             <!-- Social -->
                             <div class="sidebar-social">
-                                <a href="https://www.facebook.com/share/g3u3GphwoP68NQRF/?mibextid=LQQJ4d"target="_blank"><i
-                                        class="fab fa-facebook"></i></a>
-                                <a
-                                    href="https://www.instagram.com/joychicbar?igsh=MW14MGlwNXJiazdjZg%3D%3D&utm_source=qr"
-                                       target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a href="https://www.facebook.com/share/g3u3GphwoP68NQRF/?mibextid=LQQJ4d"
+                                    target="_blank"><i class="fab fa-facebook"></i></a>
+                                <a href="https://www.instagram.com/joychicbar?igsh=MW14MGlwNXJiazdjZg%3D%3D&utm_source=qr"
+                                    target="_blank"><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
@@ -129,14 +128,17 @@
         <section class="contact-section">
             <div class="container">
 
-                <div class="gmp"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d798.2685545939157!2d174.75644586973544!3d-36.84069852497098!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0d4722ea580011%3A0x3f3105160f69862c!2sJoy%20Chic%20Bar!5e0!3m2!1sen!2shk!4v1735572222586!5m2!1sen!2shk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                <div class="gmp"><iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d798.2685545939157!2d174.75644586973544!3d-36.84069852497098!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0d4722ea580011%3A0x3f3105160f69862c!2sJoy%20Chic%20Bar!5e0!3m2!1sen!2shk!4v1735572222586!5m2!1sen!2shk"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe></div>
                 <br><br>
                 <div class="row">
                     <div class="offset-xxl-1 col-lg-11">
                         <h2 class="contact-title">Get in Touch</h2>
                     </div>
                     <div class="offset-xl-1 col-lg-7">
-                        <form class="form-contact contact_form" action="#" method="post" id="contactForm"
+                        <form class="form-contact contact_form" onsubmit="return false;" method="post" id="contactForm"
                             novalidate="novalidate">
                             <div class="row">
                                 <input name="code" id="code" type="hidden">
@@ -150,29 +152,38 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input class="form-control valid" name="name" id="name" type="text"
+                                        <input class="form-control valid" name="realname" id="realname" type="text"
                                             onfocus="this.placeholder = ''"
                                             onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input class="form-control valid" name="email" id="email" type="email"
+                                        <input class="form-control valid" name="email" id="email" type="text"
                                             onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Enter email address'" placeholder="Email">
+                                            onblur="this.placeholder = 'Enter your email address or phone number'"
+                                            placeholder="Enter your email address or phone number">
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <!-- <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="email" id="email" type="email"
+                                            onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Enter your email address or phone number'" placeholder="Enter your email address or phone number">
+                                    </div>
+                                </div> -->
+                                <!-- <div class="col-12">
                                     <div class="form-group">
                                         <input class="form-control" name="subject" id="subject" type="text"
                                             onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'"
                                             placeholder="Enter Subject">
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="form-group mt-3">
-                                <button type="submit" onclick="myFunction()"
-                                    class="button button-contactForm btn_1">Send</button>
+                                <button type="submit" id="submit" class="button button-contactForm btn_1">
+                                    <span>Send</span>
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -314,40 +325,152 @@
     </script>
     <script src="https://www.google.com/recaptcha/api.js?render=6LexbKIqAAAAAGne4vJ3UL6RZ5QAQOQ5IJCaMKAP"></script>
     <script>
+        $(document).ready(function () {
+            // 表单校验规则
+            $("#contactForm").validate({
+                rules: {
+                    realname: {
+                        required: true
+                    },
+                    message: {
+                        required: true
+                    },
+                    email: {
+                        required: true,
+                        checkEmail: true
+                    }
+                },
+                messages: {
+                    realname: {
+                        required: "Please enter your name.",
+                        minlength: "Your name must be at least 2 characters."
+                    },
+                    message: {
+                        required: "Please enter message.",
+                        minlength: "Your message must be at least 10 characters."
+                    },
+                    email: {
+                        required: "Please enter your email address or phone number.",
+                        pattern: "Please enter a valid email address or phone number."
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element); // 错误提示显示在输入框下方
+                },
+                submitHandler: function (form, event) {
+                    event.preventDefault(); // 阻止默认提交行为
+                    myFunction(); // 表单验证通过后调用 myFunction
+                }
+            });
+
+            // 捕获表单的 submit 事件
+            $("#contactForm").submit(function (event) {
+                event.preventDefault(); // 阻止默认提交行为
+            });
+
+            $.validator.addMethod("checkEmail", function (value, element, params) {
+                var checkEmail = /^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|[0-9]+(?:\.[0-9]+)?)$/;
+                return this.optional(element) || (checkEmail.test(value));
+            }, "Please enter a valid email address or phone number.");
+
+        });
+
+
         function myFunction() {
             grecaptcha.ready(function () {
-                grecaptcha.execute('6LexbKIqAAAAAGne4vJ3UL6RZ5QAQOQ5IJCaMKAP', { action: 'submit' }).then(function (token) {
-                    document.getElementById('test').innerHTML = token;
-                    let data = { "id": generateGUID(), "tenant": "www.joychicbar.co.nz", "name": document.getElementById('name').value(), "contact": document.getElementById('email').value(), "message": document.getElementById('message').value(), "token": token };
+                // 设置按钮不可点击
+                $("#submit").prop("disabled", true);
+
+                // 添加转圈动画
+                if (!$("#submit").find(".spinner").length) {
+                    $("#submit").append('<div class="spinner"></div>');
+                }
+
+                grecaptcha.execute("6LexbKIqAAAAAGne4vJ3UL6RZ5QAQOQ5IJCaMKAP", { action: "submit" }).then(function (token) {
+                    let data = {
+                        id: generateGUID(),
+                        tenant: "www.joychicbar.co.nz",
+                        name: $("#realname").val(),
+                        contact: $("#email").val(),
+                        message: $("#message").val(),
+                        token: token
+                    };
                     console.log(data);
+
                     $.ajax({
-                        url: 'https://niobiumnotifyfunc.azurewebsites.net/api/Notification', // 请求的URL
-                        type: 'POST',                           // 请求类型
-                        contentType: 'application/json',        // 指定提交数据的格式为 JSON
+                        url: "https://niobiumnotifyfunc.azurewebsites.net/api/Notification", // 请求的URL
+                        type: "POST", // 请求类型
+                        contentType: "application/json", // 指定提交数据的格式为 JSON
                         data: JSON.stringify(data),
-                        success: function (response) {           // 请求成功的回调
-                            console.log('Success:', response);
+                        success: function (response) {
+                            console.log("Success:", response);
+                            $("#submit").prop("disabled", false);
+                            $("#submit").find(".spinner").remove();
                         },
-                        error: function (xhr, status, error) {   // 请求失败的回调
-                            console.error('Error:', error);
+                        error: function (xhr, status, error) {
+                            console.error("Error:", error);
                         }
                     });
-
                 });
             });
         }
 
         function generateGUID() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
                 const r = (Math.random() * 16) | 0; // 生成一个0-15的随机数
-                const v = c === 'x' ? r : (r & 0x3) | 0x8; // 确保第13位是4，第17位是8、9、A或B
+                const v = c === "x" ? r : (r & 0x3) | 0x8; // 确保第13位是4，第17位是8、9、A或B
                 return v.toString(16); // 转换为16进制
             });
         }
 
 
-
     </script>
+    <style>
+        /* .button {
+          position: relative;
+          padding: 10px 20px;
+          font-size: 16px;
+          cursor: pointer;
+          border: 1px solid #007aff;
+          background-color: #007aff;
+          color: white;
+          border-radius: 5px;
+          outline: none;
+        } */
+        .button {
+            display: flex;
+        }
+
+        .btn_1:hover:disabled {
+            color: #ffffff !important;
+        }
+
+        .button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            border: 0px;
+        }
+
+        .spinner {
+            margin-left: 5px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </body>
 
 </html>
