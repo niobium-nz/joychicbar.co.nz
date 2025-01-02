@@ -389,16 +389,21 @@
                             success: function (response) {
                                 console.log("Success:", response);
                                 $("#sent").show();
+                                $("#submit").prop("disabled", false);
+                                $("#submit").find(".spinner").remove();
                             },
                             error: function (xhr, status, error) {
                                 console.error("Error:", error);
-
+                                $("#submit").prop("disabled", false);
+                                $("#submit").find(".spinner").remove();
                             }
                         });
                     });
                 });
             } catch (error) {
                 console.error("An unexpected error occurred:", error);
+                $("#submit").prop("disabled", false);
+                $("#submit").find(".spinner").remove();
             } finally {
                 // 无论成功或失败，恢复按钮状态
                 $("#submit").prop("disabled", false);
