@@ -405,11 +405,11 @@
                             data: JSON.stringify(data),
                             success: function (response) {
                                 console.log("Success:", response);
-                                $("#submit").prop("disabled", false);
-                                $("#submit").find(".spinner").remove();
+                                
                             },
                             error: function (xhr, status, error) {
                                 console.error("Error:", error);
+                                
                             }
                         });
                     });
