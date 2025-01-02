@@ -191,8 +191,8 @@
                         <div class="media contact-info">
                             <span class="contact-info__icon"><i class="ti-home"></i></span>
                             <div class="media-body">
-                                <h3>39 Jellicoe Street.</h3>
-                                <p>Auckland CBD Auckland 1010
+                                <h3>39 Jellicoe Street</h3>
+                                <p>Auckland CBD
                                 </p>
                             </div>
                         </div>
@@ -377,42 +377,50 @@
 
 
         function myFunction() {
-            grecaptcha.ready(function () {
-                // 设置按钮不可点击
-                $("#submit").prop("disabled", true);
+            try {
+                grecaptcha.ready(function () {
+                    // 设置按钮不可点击
+                    $("#submit").prop("disabled", true);
 
-                // 添加转圈动画
-                if (!$("#submit").find(".spinner").length) {
-                    $("#submit").append('<div class="spinner"></div>');
-                }
+                    // 添加转圈动画
+                    if (!$("#submit").find(".spinner").length) {
+                        $("#submit").append('<div class="spinner"></div>');
+                    }
 
-                grecaptcha.execute("6LexbKIqAAAAAGne4vJ3UL6RZ5QAQOQ5IJCaMKAP", { action: "submit" }).then(function (token) {
-                    let data = {
-                        id: generateGUID(),
-                        tenant: "www.joychicbar.co.nz",
-                        name: $("#realname").val(),
-                        contact: $("#email").val(),
-                        message: $("#message").val(),
-                        token: token
-                    };
-                    console.log(data);
+                    grecaptcha.execute("6LexbKIqAAAAAGne4vJ3UL6RZ5QAQOQ5IJCaMKAP", { action: "submit" }).then(function (token) {
+                        let data = {
+                            id: generateGUID(),
+                            tenant: "www.joychicbar.co.nz",
+                            name: $("#realname").val(),
+                            contact: $("#email").val(),
+                            message: $("#message").val(),
+                            token: token
+                        };
+                        console.log(data);
 
-                    $.ajax({
-                        url: "https://niobiumnotifyfunc.azurewebsites.net/api/Notification", // 请求的URL
-                        type: "POST", // 请求类型
-                        contentType: "application/json", // 指定提交数据的格式为 JSON
-                        data: JSON.stringify(data),
-                        success: function (response) {
-                            console.log("Success:", response);
-                            $("#submit").prop("disabled", false);
-                            $("#submit").find(".spinner").remove();
-                        },
-                        error: function (xhr, status, error) {
-                            console.error("Error:", error);
-                        }
+                        $.ajax({
+                            url: "https://niobiumnotifyfunc.azurewebsites.net/api/Notification", // 请求的URL
+                            type: "POST", // 请求类型
+                            contentType: "application/json", // 指定提交数据的格式为 JSON
+                            data: JSON.stringify(data),
+                            success: function (response) {
+                                console.log("Success:", response);
+                                $("#submit").prop("disabled", false);
+                                $("#submit").find(".spinner").remove();
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error:", error);
+                            }
+                        });
                     });
                 });
-            });
+            } catch (error) {
+                console.error("An unexpected error occurred:", error);
+            } finally {
+                // 无论成功或失败，恢复按钮状态
+                $("#submit").prop("disabled", false);
+                $("#submit").find(".spinner").remove();
+            }
         }
 
         function generateGUID() {
