@@ -165,25 +165,13 @@
                                             placeholder="Enter your email address or phone number">
                                     </div>
                                 </div>
-                                <!-- <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control valid" name="email" id="email" type="email"
-                                            onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Enter your email address or phone number'" placeholder="Enter your email address or phone number">
-                                    </div>
-                                </div> -->
-                                <!-- <div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="subject" id="subject" type="text"
-                                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'"
-                                            placeholder="Enter Subject">
-                                    </div>
-                                </div> -->
+
                             </div>
-                            <div class="form-group mt-3">
+                            <div class="form-group mt-3" style="display: flex;">
                                 <button type="submit" id="submit" class="button button-contactForm btn_1">
                                     <span>Send</span>
                                 </button>
+                                <div id="sent" class="sent" style="display: none;">sent</div>
                             </div>
                         </form>
                     </div>
@@ -203,13 +191,7 @@
                                 <p>Mon to Sun <br>5:00pm to 9:30pm</p>
                             </div>
                         </div>
-                        <!-- <div class="media contact-info">
-                            <span class="contact-info__icon"><i class="ti-email"></i></span>
-                            <div class="media-body">
-                                <h3>support@colorlib.com</h3>
-                                <p>Send us your query anytime!</p>
-                            </div>
-                        </div> -->
+
                     </div>
                 </div>
             </div>
@@ -380,6 +362,7 @@
             try {
                 grecaptcha.ready(function () {
                     // 设置按钮不可点击
+                    $("#sent").hide();
                     $("#submit").prop("disabled", true);
 
                     // 添加转圈动画
@@ -405,11 +388,11 @@
                             data: JSON.stringify(data),
                             success: function (response) {
                                 console.log("Success:", response);
-                                
+                                $("#sent").show();
                             },
                             error: function (xhr, status, error) {
                                 console.error("Error:", error);
-                                
+
                             }
                         });
                     });
@@ -434,17 +417,16 @@
 
     </script>
     <style>
-        /* .button {
-          position: relative;
-          padding: 10px 20px;
-          font-size: 16px;
-          cursor: pointer;
-          border: 1px solid #007aff;
-          background-color: #007aff;
-          color: white;
-          border-radius: 5px;
-          outline: none;
-        } */
+        .sent {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 22px;
+            font-size: 20px;
+            color: #3c9cff;
+        }
+
         .button {
             display: flex;
         }
