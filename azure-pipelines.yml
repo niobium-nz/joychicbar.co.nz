@@ -1,5 +1,10 @@
 trigger:
 - master
+- feature/*
+
+variables:
+  isProduction: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  isTest: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/')]
 
 pool:
   vmImage: 'windows-latest'
@@ -25,8 +30,21 @@ stages:
         TargetFolder: $(Build.ArtifactStagingDirectory)
     - publish: $(Build.ArtifactStagingDirectory)/src
       artifact: drop
-      
+
+- stage: Test
+  condition: and(succeeded('Build'), eq(variables.isTest, true))
+  jobs:
+  - template: pipelines/jobs/StaticWebsiteDeploy.yml@devops
+    parameters:
+      buildAgentVmImage: 'windows-latest'
+      azureServiceConnection: 'niobium-joychicbar'
+      resourceGroupName: 'niobium-joychicbar-test'
+      storageAccountName: 'websitejoychicbartest'
+      checkoutDevopsStep:
+       checkout: devops
+
 - stage: Production
+  condition: and(succeeded('Build'), eq(variables.isProduction, true))
   jobs:
   - template: pipelines/jobs/StaticWebsiteDeploy.yml@devops
     parameters:
