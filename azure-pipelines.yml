@@ -32,6 +32,7 @@ stages:
         scriptType: 'InlineScript'
         Inline: |
             dir '$(System.DefaultWorkingDirectory)\'
+            dir '$(System.DefaultWorkingDirectory)\scripts'
             $(System.DefaultWorkingDirectory)\scripts\expand-html-includes.ps1 -Root '$(System.DefaultWorkingDirectory)\src'
         azurePowerShellVersion: 'latestVersion'
         pwsh: true
