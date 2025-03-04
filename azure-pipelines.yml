@@ -23,22 +23,22 @@ stages:
   jobs:
   - job: Stage
     steps:
-    - task: CopyFiles@2
-      displayName: 'Drop Static Website'
-      inputs:
-        Contents: '$(System.DefaultWorkingDirectory)/src/**'
-        TargetFolder: $(Build.ArtifactStagingDirectory)
-    
     - task: AzurePowerShell@5
       displayName: 'Expand HTML includes'
       inputs:
         azureSubscription: 'niobium-joychicbar'
         scriptType: 'InlineScript'
         Inline: |
-            "scripts/expand-html-includes.ps1" -Root '$(System.DefaultWorkingDirectory)/src'
+            "$(System.DefaultWorkingDirectory)/scripts/expand-html-includes.ps1" -Root '$(System.DefaultWorkingDirectory)/src'
         azurePowerShellVersion: 'latestVersion'
         pwsh: true
 
+    - task: CopyFiles@2
+      displayName: 'Drop Static Website'
+      inputs:
+        Contents: '$(System.DefaultWorkingDirectory)/src/**'
+        TargetFolder: $(Build.ArtifactStagingDirectory)
+    
     - publish: $(Build.ArtifactStagingDirectory)/src
       artifact: drop
 
