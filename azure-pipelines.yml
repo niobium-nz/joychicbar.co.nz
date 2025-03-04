@@ -28,6 +28,17 @@ stages:
       inputs:
         Contents: '$(System.DefaultWorkingDirectory)/src/**'
         TargetFolder: $(Build.ArtifactStagingDirectory)
+    
+    - task: AzurePowerShell@5
+      displayName: 'Expand HTML includes'
+      inputs:
+        azureSubscription: 'niobium-joychicbar'
+        scriptType: 'InlineScript'
+        Inline: |
+            "scripts/expand-html-includes.ps1" -Root '$(System.DefaultWorkingDirectory)/src'
+        azurePowerShellVersion: 'latestVersion'
+        pwsh: true
+
     - publish: $(Build.ArtifactStagingDirectory)/src
       artifact: drop
 
