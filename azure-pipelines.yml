@@ -24,8 +24,9 @@ stages:
     parameters:
       buildAgentVmImage: 'windows-latest'
       azureServiceConnection: 'niobium-joychicbar'
-      checkoutDevopsStep:
-        checkout: devops
+      checkoutDevopsSteps:
+        - checkout: devops
+          workspaceRepo: true
 
 - stage: Test
   condition: and(succeeded('Build'), eq(variables.isTest, true))
