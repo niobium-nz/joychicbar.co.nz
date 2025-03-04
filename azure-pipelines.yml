@@ -39,7 +39,7 @@ stages:
       resourceGroupName: 'niobium-joychicbar-test'
       storageAccountName: 'websitejoychicbartest'
       checkoutDevopsStep:
-       checkout: devops
+        checkout: devops
 
 - stage: Production
   condition: and(succeeded('Build'), eq(variables.isProduction, true))
