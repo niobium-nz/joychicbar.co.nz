@@ -26,6 +26,7 @@ stages:
       azureServiceConnection: 'niobium-joychicbar'
       checkoutDevopsSteps:
         - checkout: devops
+          path: devops
           workspaceRepo: true
 
 - stage: Test
