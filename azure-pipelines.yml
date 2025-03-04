@@ -26,6 +26,7 @@ stages:
       azureServiceConnection: 'niobium-joychicbar'
       checkoutDevopsStep:
        checkout: devops
+         workspaceRepo: true
 
 - stage: Test
   condition: and(succeeded('Build'), eq(variables.isTest, true))
