@@ -19,32 +19,14 @@ resources:
 
 stages:
 - stage: Build
-  displayName: Build
   jobs:
-  - job: Stage
-    steps:
-    - checkout: self
-    - checkout: devops
-    - task: AzurePowerShell@5
-      displayName: 'Expand HTML includes'
-      inputs:
-        azureSubscription: 'niobium-joychicbar'
-        scriptType: 'InlineScript'
-        Inline: |
-            dir '$(System.DefaultWorkingDirectory)\'
-            dir '$(System.DefaultWorkingDirectory)\scripts'
-            $(System.DefaultWorkingDirectory)\scripts\expand-html-includes.ps1 -Root '$(System.DefaultWorkingDirectory)\src'
-        azurePowerShellVersion: 'latestVersion'
-        pwsh: true
-
-    - task: CopyFiles@2
-      displayName: 'Drop Static Website'
-      inputs:
-        Contents: '$(System.DefaultWorkingDirectory)/src/**'
-        TargetFolder: $(Build.ArtifactStagingDirectory)
-    
-    - publish: $(Build.ArtifactStagingDirectory)/src
-      artifact: drop
+  - template: pipelines/jobs/StaticWebsiteBuild.yml@devops
+    parameters:
+      buildAgentVmImage: 'windows-latest'
+      sourceDir: '$(System.DefaultWorkingDirectory)/src'
+      dropDir: $(Build.ArtifactStagingDirectory)
+      checkoutDevopsStep:
+       checkout: devops
 
 - stage: Test
   condition: and(succeeded('Build'), eq(variables.isTest, true))
