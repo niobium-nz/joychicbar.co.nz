@@ -29,7 +29,7 @@ stages:
         azureSubscription: 'niobium-joychicbar'
         scriptType: 'InlineScript'
         Inline: |
-            '$(System.DefaultWorkingDirectory)\scripts\expand-html-includes.ps1' -Root '$(System.DefaultWorkingDirectory)\src'
+            $(System.DefaultWorkingDirectory)\scripts\expand-html-includes.ps1 -Root '$(System.DefaultWorkingDirectory)\src'
         azurePowerShellVersion: 'latestVersion'
         pwsh: true
 
