@@ -23,6 +23,7 @@ stages:
   jobs:
   - job: Stage
     steps:
+    - checkout: self
     - checkout: devops
     - task: AzurePowerShell@5
       displayName: 'Expand HTML includes'
