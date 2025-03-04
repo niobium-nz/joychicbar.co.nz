@@ -24,8 +24,6 @@ stages:
     parameters:
       buildAgentVmImage: 'windows-latest'
       azureServiceConnection: 'niobium-joychicbar'
-      sourceDir: '$(System.DefaultWorkingDirectory)/src'
-      dropDir: $(Build.ArtifactStagingDirectory)
       checkoutDevopsStep:
        checkout: devops
 
